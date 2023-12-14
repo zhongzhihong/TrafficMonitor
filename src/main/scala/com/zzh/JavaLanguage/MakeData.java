@@ -24,7 +24,7 @@ public class MakeData {
         String day = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
         Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", "172.16.84.136:9092,172.16.84.137:9092,172.16.84.138:9092");
+        properties.setProperty("bootstrap.servers", "172.16.84.137:9092,172.16.84.138:9092,172.16.84.139:9092");
         properties.setProperty("key.serializer", StringSerializer.class.getName());
         properties.setProperty("value.serializer", StringSerializer.class.getName());
 
