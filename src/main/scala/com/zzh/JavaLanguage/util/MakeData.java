@@ -1,4 +1,4 @@
-package com.zzh.JavaLanguage;
+package com.zzh.JavaLanguage.util;
 
 import org.apache.commons.math3.random.GaussianRandomGenerator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
