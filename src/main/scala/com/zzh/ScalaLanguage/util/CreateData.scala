@@ -1,4 +1,4 @@
-package com.zzh.ScalaLanguage
+package com.zzh.ScalaLanguage.util
 
 import org.apache.commons.math3.random.{GaussianRandomGenerator, JDKRandomGenerator}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
