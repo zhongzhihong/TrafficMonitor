@@ -18,7 +18,7 @@ object CreateData {
     var out: FileOutputStream = null
     var pw: PrintWriter = null
     val r = new Random()
-    var producer: KafkaProducer[Nothing, String] = null
+    // var producer: KafkaProducer[Nothing, String] = null
 
     val locations = Array[String]("京", "津", "冀", "京", "鲁", "京", "京", "京", "京", "京")
     val day = new SimpleDateFormat("yyyy-MM-dd").format(new Date)
@@ -31,7 +31,7 @@ object CreateData {
       // 初始化文件的输出流，执行代码前需要先创建data文件夹
       out = new FileOutputStream("./data/trafficData")
       pw = new PrintWriter(new OutputStreamWriter(out, "UTF-8"))
-      producer = new KafkaProducer[Nothing, String](props)
+      // producer = new KafkaProducer[Nothing, String](props)
       // 初始化高斯分布的对象
       val generator = new JDKRandomGenerator()
       // 设置随机数的种子
@@ -77,8 +77,8 @@ object CreateData {
           // 写入文件
           pw.write(content + "\n")
           // 写入kafka
-          val record = new ProducerRecord("traffic_zzh", content)
-          producer.send(record)
+          // val record = new ProducerRecord("traffic_zzh", content)
+          // producer.send(record)
         }
         pw.flush()
       }
@@ -88,7 +88,7 @@ object CreateData {
     } finally {
       pw.close()
       out.close()
-      producer.close()
+      // roducer.close()
     }
   }
 }

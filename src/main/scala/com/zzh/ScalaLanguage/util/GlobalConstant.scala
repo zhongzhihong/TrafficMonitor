@@ -1,10 +1,13 @@
 package com.zzh.ScalaLanguage.util
 
+import org.apache.flink.api.common.state.MapStateDescriptor
+
 /**
  * 项目中的全局常量
  */
-class GlobalConstant {
-
+object GlobalConstant {
+  // 状态描述
+  val MONITOR_LIMIT_STATE_DESCRIPTION = new MapStateDescriptor[String, MonitorLimitInfo]("monitor_state", classOf[String], classOf[MonitorLimitInfo])
 }
 
 // 车辆经过卡口的日志数据
@@ -12,3 +15,5 @@ case class TrafficLog(actionTime: Long, monitorId: String, cameraId: String, car
 
 // 卡口限速信息表
 case class MonitorLimitInfo(monitorId: String, roadId: String, speedLimit: Int, areaId: String)
+
+case class OutOfLimitSpeedInfo(car: String, monitorId: String, roadId: String, realSpeed: Double, limitSpeed: Int, actionTime: Long)

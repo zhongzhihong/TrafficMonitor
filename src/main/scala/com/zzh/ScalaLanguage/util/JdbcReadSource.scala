@@ -17,13 +17,15 @@ class JdbcReadSource[T](classType: Class[_ <: T]) extends RichSourceFunction[T] 
   override def run(sourceContext: SourceFunction.SourceContext[T]): Unit = {
     while (flag) {
       ret = pst.executeQuery()
-      if (classType.getName.equals(classOf[MonitorLimitInfo].getName)) {
-        val info = new MonitorLimitInfo(ret.getString(1), ret.getString(2), ret.getInt(3), ret.getString(4))
-        sourceContext.collect(info.asInstanceOf[T])
+      while (ret.next()) {
+        if (classType.getName.equals(classOf[MonitorLimitInfo].getName)) {
+          val info = MonitorLimitInfo(ret.getString(1), ret.getString(2), ret.getInt(3), ret.getString(4))
+          sourceContext.collect(info.asInstanceOf[T])
+        }
       }
-      ret.close()
       // 休眠一小时后从数据库中更新数据
       Thread.sleep(60 * 60 * 1000)
+      ret.close()
     }
   }
 
@@ -32,7 +34,7 @@ class JdbcReadSource[T](classType: Class[_ <: T]) extends RichSourceFunction[T] 
   }
 
   override def open(parameters: Configuration): Unit = {
-    conn = DriverManager.getConnection("jdbc:mysql://localhost:/traffic_monitor", "root", "123456zzh")
+    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traffic_monitor?useSSL=false", "root", "123456zzh")
     if (classType.getName.equals(classOf[MonitorLimitInfo].getName)) {
       pst = conn.prepareStatement("SELECT * FROM t_monitor_info WHERE speed_limit > 0")
     }
