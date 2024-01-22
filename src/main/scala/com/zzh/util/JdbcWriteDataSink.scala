@@ -1,4 +1,4 @@
-package com.zzh.ScalaLanguage.util
+package com.zzh.util
 
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.functions.sink.{RichSinkFunction, SinkFunction}

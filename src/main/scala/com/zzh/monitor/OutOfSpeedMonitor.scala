@@ -1,6 +1,6 @@
-package com.zzh.ScalaLanguage.monitor
+package com.zzh.monitor
 
-import com.zzh.ScalaLanguage.util.{GlobalConstant, JdbcReadSource, JdbcWriteDataSink, MonitorLimitInfo, OutOfLimitSpeedInfo, TrafficLog}
+import com.zzh.util.{GlobalConstant, JdbcReadSource, JdbcWriteDataSink, MonitorLimitInfo, OutOfLimitSpeedInfo, TrafficLog}
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.functions.co.BroadcastProcessFunction
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
