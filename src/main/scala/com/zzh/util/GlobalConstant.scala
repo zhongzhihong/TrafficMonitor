@@ -21,3 +21,6 @@ case class OutOfLimitSpeedInfo(car: String, monitorId: String, roadId: String, r
 
 // 卡口的平均车速对象
 case class AvgSpeedInfo(start: Long, end: Long, monitorId: String, avgSpeed: Double, carCount: Int)
+
+// 套牌车告警信息对象
+case class RepetitionCarWarningInfo(car: String, firstMonitor: String, secondMonitor: String, warningTime: Long, warningMsg: String)

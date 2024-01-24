@@ -10,6 +10,19 @@ class JdbcWriteDataSink[T](classType: Class[_ <: T]) extends RichSinkFunction[T]
   var conn: Connection = _
   var pst: PreparedStatement = _
 
+  override def open(parameters: Configuration): Unit = {
+    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traffic_monitor", "root", "123456zzh")
+    if (classType.getName.equals(classOf[OutOfLimitSpeedInfo].getName)) {
+      pst = conn.prepareStatement("INSERT INTO t_speeding_info (car, monitor_id, road_id, real_speed, limit_speed, action_time) VALUES (?, ?, ?, ?, ?, ?)")
+    }
+    if (classType.getName.equals(classOf[AvgSpeedInfo].getName)) {
+      pst = conn.prepareStatement("INSERT INTO t_average_speed (start_time, end_time, monitor_id, avg_speed, car_count) VALUES (?, ?, ?, ?, ?)")
+    }
+    if (classType.getName.equals(classOf[RepetitionCarWarningInfo].getName)) {
+      pst = conn.prepareStatement("INSERT INTO t_violation_list (car, violation, create_time) VALUES (?, ?, ?)")
+    }
+  }
+
   override def invoke(value: T, context: SinkFunction.Context[_]): Unit = {
     if (classType.getName.equals(classOf[OutOfLimitSpeedInfo].getName)) {
       val info = value.asInstanceOf[OutOfLimitSpeedInfo]
@@ -30,15 +43,12 @@ class JdbcWriteDataSink[T](classType: Class[_ <: T]) extends RichSinkFunction[T]
       pst.setInt(5, info.carCount)
       pst.executeUpdate()
     }
-  }
-
-  override def open(parameters: Configuration): Unit = {
-    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traffic_monitor", "root", "123456zzh")
-    if (classType.getName.equals(classOf[OutOfLimitSpeedInfo].getName)) {
-      pst = conn.prepareStatement("INSERT INTO t_speeding_info (car, monitor_id, road_id, real_speed, limit_speed, action_time) VALUES (?, ?, ?, ?, ?, ?)")
-    }
-    if (classType.getName.equals(classOf[AvgSpeedInfo].getName)) {
-      pst = conn.prepareStatement("INSERT INTO t_average_speed (start_time, end_time, monitor_id, avg_speed, car_count) VALUES (?, ?, ?, ?, ?)")
+    if (classType.getName.equals(classOf[RepetitionCarWarningInfo].getName)) {
+      val info = value.asInstanceOf[RepetitionCarWarningInfo]
+      pst.setString(1, info.car)
+      pst.setString(2, info.warningMsg)
+      pst.setLong(3, info.warningTime)
+      pst.executeUpdate()
     }
   }
 
