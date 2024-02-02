@@ -26,4 +26,4 @@ case class AvgSpeedInfo(start: Long, end: Long, monitorId: String, avgSpeed: Dou
 case class RepetitionCarWarningInfo(car: String, firstMonitor: String, secondMonitor: String, warningTime: Long, warningMsg: String)
 
 // 车辆危险驾驶的信息对象
-case class ViolationInfo(car: String, msg: String, creatTime: Long)
+case class ViolationInfo(car: String, msg: String, creatTime: Long, outCount: Int)

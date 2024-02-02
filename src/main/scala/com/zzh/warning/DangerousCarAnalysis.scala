@@ -80,10 +80,11 @@ object DangerousCarAnalysis {
           }
           val avg = (sum / count).formatted("%.2f").toDouble
           builder.append(s"它在两分钟内的平均车速为：${avg}")
-          ViolationInfo(list(0).car, builder.toString(), System.currentTimeMillis())
+          ViolationInfo(list(0).car, builder.toString(), System.currentTimeMillis(), list.size)
         }
       )
-      .print()
+      // .print()
+      .addSink(new JdbcWriteDataSink[ViolationInfo](classOf[ViolationInfo]))
 
     streamEnv.execute()
   }
