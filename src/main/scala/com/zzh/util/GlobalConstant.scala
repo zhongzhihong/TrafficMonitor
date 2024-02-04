@@ -27,3 +27,6 @@ case class RepetitionCarWarningInfo(car: String, firstMonitor: String, secondMon
 
 // 车辆危险驾驶的信息对象
 case class ViolationInfo(car: String, msg: String, creatTime: Long, outCount: Int)
+
+// 交警出警记录的信息对象
+case class PoliceAction(policedId: String, car: String, actionStatus: String, actionTime: Long)
