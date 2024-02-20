@@ -8,6 +8,7 @@ import org.apache.flink.api.common.state.MapStateDescriptor
 object GlobalConstant {
   // 状态描述
   val MONITOR_LIMIT_STATE_DESCRIPTION = new MapStateDescriptor[String, MonitorLimitInfo]("monitor_state", classOf[String], classOf[MonitorLimitInfo])
+  val VIOLATION_STATE_DESCRIPTION = new MapStateDescriptor[String, ViolationInfo]("violation_state", classOf[String], classOf[ViolationInfo])
 }
 
 // 车辆经过卡口的日志数据
@@ -30,3 +31,6 @@ case class ViolationInfo(car: String, msg: String, creatTime: Long, outCount: In
 
 // 交警出警记录的信息对象
 case class PoliceAction(policedId: String, car: String, actionStatus: String, actionTime: Long)
+
+// 车辆轨迹的信息对象
+case class TrackInfo(car: String, actionTime: Long, monitorId: String, roadId: String, areaId: String, speed: Double)

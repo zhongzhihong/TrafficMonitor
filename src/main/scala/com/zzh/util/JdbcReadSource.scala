@@ -22,6 +22,10 @@ class JdbcReadSource[T](classType: Class[_ <: T]) extends RichSourceFunction[T] 
           val info = MonitorLimitInfo(ret.getString(1), ret.getString(2), ret.getInt(3), ret.getString(4))
           sourceContext.collect(info.asInstanceOf[T])
         }
+        if (classType.getName.equals(classOf[ViolationInfo].getName)) {
+          val info = ViolationInfo(ret.getString("car"), ret.getString("violation"), ret.getLong("create_time"), ret.getInt("out_count"))
+          sourceContext.collect(info.asInstanceOf[T])
+        }
       }
       // 休眠一小时后从数据库中更新数据
       Thread.sleep(60 * 60 * 1000)
@@ -37,6 +41,9 @@ class JdbcReadSource[T](classType: Class[_ <: T]) extends RichSourceFunction[T] 
     conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traffic_monitor?useSSL=false", "root", "123456zzh")
     if (classType.getName.equals(classOf[MonitorLimitInfo].getName)) {
       pst = conn.prepareStatement("SELECT * FROM t_monitor_info WHERE speed_limit > 0")
+    }
+    if (classType.getName.equals(classOf[ViolationInfo].getName)) {
+      pst = conn.prepareStatement("SELECT * FROM t_violation_list")
     }
   }
 
