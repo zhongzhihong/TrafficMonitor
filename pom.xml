@@ -73,6 +73,12 @@
             <artifactId>hbase-common</artifactId>
             <version>0.98.24-hadoop2</version>
         </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
